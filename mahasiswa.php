@@ -1,70 +1,49 @@
 <?php
-$multidimensi = [
-    [
-        "No" => 1,
-        "Nim" => "D212111034",
-        "Nama" => "Rahmatia",
-    ],
-    [
-        "No" => 2,
-        "Nim" => "D212111003",
-        "Nama" => "Dasimah Seftiani",
-    ],
-    [
-        "No" => 3,
-        "Nim" => "D212111005",
-        "Nama" => "Dewi Yulianti",
-    ],
-    [
-        "No" => 4,
-        "Nim" => "D212111006",
-        "Nama" => "Gita Septiani",
-    ],
-    [
-        "No" => 5,
-        "Nim" => "D212111007",
-        "Nama" => "Iklas Wandana",
-    ],
-    [
-        "No" => 6,
-        "Nim" => "D212111008",
-        "Nama" => "Intan Khoirunnisa",
-    ],
-    [
-        "No" => 7,
-        "Nim" => "D212111009",
-        "Nama" => "RIslah Nurhasannah",
-    ],
-    [
-        "No" => 8,
-        "Nim" => "D212111010",
-        "Nama" => "Kenia Nurazizah",
-    ],
-    [
-        "No" => 9,
-        "Nim" => "D212111013",
-        "Nama" => "Renaldi Irawan",
-    ],
-    [
-        "No" => 10,
-        "Nim" => "D212111012",
-        "Nama" => "Puspa Dewi Kusumawati",
-    ],
-];
 
-echo "<table border='1' cellspacing='0'>";
-echo "<tr>
-        <th>No</th>
-        <th>Nim</th>
-        <th>Nama</th>
-      </tr>";
+    $mysqli = new mysqli('localhost', 'root', '', 'mahasiswa');
+    $result = $mysqli->query("SELECT student.nim, student.nama, program_study.name
+    FROM student INNER JOIN program_study ON student.id = program_study.noo");
 
-foreach ($multidimensi as $value) {
-    echo "<tr>
-            <td>{$value['No']}</td>
-            <td>{$value['Nim']}</td>
-            <td>{$value['Nama']}</td>
-          </tr>";
-}
-echo "</table>";
+   $student = [];
+
+    while ($row = $result->fetch_assoc()) {
+        array_push($student, $row);
+    }
+
+    $no = 1
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Mahasiswa</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container"> 
+    <h1 class="text-center">Data Mahasiswa KA 2021</h1>
+    <a href="tambah_mahasiswa.php" class="btn btn-primary">Add</a>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Program Studi</th>
+        </tr>
+        <?php foreach ($student as $row ) { ?>
+            <tr>
+                <td><?=$no++; ?></td>
+                <td><?=$row['nim'];?></td>
+                <td><?=$row['nama'];?></td>
+                <td><?=$row['name'];?></td> 
+            </tr>
+        <?php } ?>
+    </table>  
+    </div>
+</body>
+</html>
